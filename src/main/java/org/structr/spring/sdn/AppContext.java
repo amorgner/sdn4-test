@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.structr.spring.sdn.test;
+package org.structr.spring.sdn;
 
 import org.neo4j.ogm.session.Session;
 import org.neo4j.ogm.session.SessionFactory;
@@ -21,25 +21,25 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author Axel Morgner
  */
 @Configuration
-@EnableNeo4jRepositories("org.structr.spring.sdn.test.repository")
+@EnableNeo4jRepositories("org.structr.spring.sdn.repository")
 @EnableTransactionManagement
-@ComponentScan("org.structr.string.sdn.test.model")
-public class App extends Neo4jConfiguration {
+@ComponentScan("org.structr.spring.sdn.test")
+public class AppContext extends Neo4jConfiguration {
 
-	public static final int NEO4J_PORT = 7474;
+	public static final String NEO4J_HOST = "http://localhost:";
+	public static final int    NEO4J_PORT = 7474;
 	
-	@Bean
 	@Override
 	public SessionFactory getSessionFactory() {
 		System.setProperty("username", "neo4j");
 		System.setProperty("password", "admin");
-		return new SessionFactory("org.structr.string.sdn.test.model");
+		return new SessionFactory("org.structr.spring.sdn.model");
 	}
 
 	@Bean
 	@Override
 	public Neo4jServer neo4jServer() {
-		return new RemoteServer("http://localhost:" + NEO4J_PORT);
+		return new RemoteServer(NEO4J_HOST + NEO4J_PORT);
 	}
 
 	@Bean
